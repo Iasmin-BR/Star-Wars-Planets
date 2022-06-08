@@ -5,6 +5,7 @@ import {
   handleObjKeys,
   handleFilterByName,
 } from '../Helpers/Handlers';
+import Loading from './Loading';
 
 function Table() {
   const { planets, isLoading, filters: {
@@ -17,7 +18,7 @@ function Table() {
     <div>
       {
         (isLoading)
-          ? ('Loading...') // [TODO] Fazer componente Loading;
+          ? (<Loading />)
           : (
             <table>
               <tbody>
