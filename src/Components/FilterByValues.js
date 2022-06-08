@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
-import { handleColumnOptions } from '../Helpers/Handlers';
+import { renderColumnOptions, renderComparisonMenu } from '../Helpers/Handlers';
 
 function FilterByValues() {
   const { filters, setFilters, setIsLoading } = useContext(Context);
@@ -26,14 +26,8 @@ function FilterByValues() {
 
   return (
     <div>
-      <select data-testid="column-filter" id="column">
-        { handleColumnOptions() }
-      </select>
-      <select data-testid="comparison-filter" id="comparison">
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
+      { renderColumnOptions() }
+      { renderComparisonMenu() }
       <input
         id="number"
         data-testid="value-filter"

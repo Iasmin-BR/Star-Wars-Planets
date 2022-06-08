@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
 import {
-  handleTableHeaders,
-  handleObjKeys,
+  renderTableHeaders,
+  renderPlanetData,
   handleFilterByName,
   handleFilterByValues,
 } from '../Helpers/Handlers';
@@ -23,14 +23,12 @@ function Table() {
           : (
             <table>
               <tbody>
-                <tr>
-                  { handleTableHeaders() }
-                </tr>
+                { renderTableHeaders() }
                 {
                   planets
                     .filter((planet) => handleFilterByName(planet, filterByName))
                     .filter((planet) => handleFilterByValues(planet, filterByValues))
-                    .map((planet, index) => (handleObjKeys(planet, index)))
+                    .map((planet, index) => (renderPlanetData(planet, index)))
                 }
               </tbody>
             </table>

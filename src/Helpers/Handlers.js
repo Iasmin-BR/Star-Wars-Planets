@@ -24,14 +24,13 @@ export const fetchAPI = async () => {
   return planets;
 };
 
-export const handleTableHeaders = () => {
-  console.log('[Dúvida Lint : arrow function sem return]');
-  return (
-    Object.entries(headers).map((header, index) => (<th key={ index }>{ header[1] }</th>))
-  );
-};
+export const renderTableHeaders = () => (
+  <tr>
+    { Object.entries(headers).map((header, i) => (<th key={ i }>{ header[1] }</th>))}
+  </tr>
+);
 
-export const handleObjKeys = (planet, index) => (
+export const renderPlanetData = (planet, index) => (
   <tr key={ index }>
     {
       Object.entries(headers).map((header, i) => (
@@ -66,7 +65,7 @@ export const handleFilterByValues = (planet, input) => {
   }
 };
 
-export const handleColumnOptions = () => {
+export const renderColumnOptions = () => {
   const numValues = {
     population: 'Population',
     rotation_period: 'Rotation Period',
@@ -75,14 +74,33 @@ export const handleColumnOptions = () => {
     surface_water: 'Surface Water',
   };
 
-  return Object.entries(numValues).map((value, index) => (
-    <option
-      key={ index }
-      value={ value[0] }
-      id={ value[0] }
-    >
-      { value[0] }
-    </option>
-  ));
+  return (
+    <select data-testid="column-filter" id="column">
+      {
+        Object.entries(numValues).map((value, index) => (
+          <option
+            key={ index }
+            value={ value[0] }
+            id={ value[0] }
+          >
+            { value[0] }
+          </option>
+        ))
+      }
+    </select>
+  );
+
   // [TODO] After conclution: change value[0] to value[1] to render the correct names in the dropdown menu;
+};
+
+export const renderComparisonMenu = () => {
+  const options = ['maior que', 'menor que', 'igual a'];
+  return (
+    <select data-testid="comparison-filter" id="comparison">
+      {
+        options.map((option, i) => (
+          <option key={ i } value={ option }>{ option }</option>))
+      }
+    </select>
+  );
 };
