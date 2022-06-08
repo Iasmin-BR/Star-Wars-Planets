@@ -54,14 +54,16 @@ export const handleFilterByValues = (planet, input) => {
   if (comparison === '') { // Initial value empty: this condition leads to no initial filtering;
     return planet;
   }
-  if (comparison === 'maior que' && Number(planet[column]) > Number(value)) {
-    return planet;
-  }
-  if (comparison === 'menor que' && Number(planet[column]) < Number(value)) {
-    return planet;
-  }
-  if (comparison === 'igual a' && Number(planet[column]) === Number(value)) {
-    return planet;
+  if (planet.population !== 'unknown') {
+    if (comparison === 'maior que' && Number(planet[column]) > Number(value)) {
+      return planet;
+    }
+    if (comparison === 'menor que' && Number(planet[column]) <= Number(value)) {
+      return planet;
+    }
+    if (comparison === 'igual a' && Number(planet[column]) === Number(value)) {
+      return planet;
+    }
   }
 };
 
@@ -94,6 +96,7 @@ export const renderColumnOptions = () => {
 };
 
 export const renderComparisonMenu = () => {
+  // [TODO]: After conclusion: Translate options to English;
   const options = ['maior que', 'menor que', 'igual a'];
   return (
     <select data-testid="comparison-filter" id="comparison">
