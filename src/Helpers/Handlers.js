@@ -1,36 +1,20 @@
 import React from 'react';
 
-const headers = [
-  'Name',
-  'Rotation Period',
-  'Orbital Period',
-  'Diameter',
-  'Climate',
-  'Gravity',
-  'Terrain',
-  'Surface Water',
-  'Population',
-  'Films',
-  'Created',
-  'Edited',
-  'URL',
-];
-
-const objKeysAPI = [
-  'name',
-  'rotation_period',
-  'orbital_period',
-  'diameter',
-  'climate',
-  'gravity',
-  'terrain',
-  'surface_water',
-  'population',
-  'films',
-  'created',
-  'edited',
-  'url',
-];
+const headers = {
+  name: 'Name',
+  rotation_period: 'Rotation Period',
+  orbital_period: 'Orbital Period',
+  diameter: 'Diameter',
+  climate: 'Climate',
+  gravity: 'Gravity',
+  terrain: 'Terrain',
+  surface_water: 'Surface Water',
+  population: 'Population',
+  films: 'Films',
+  created: 'Created',
+  edited: 'Edited',
+  url: 'URL',
+};
 
 export const fetchAPI = async () => {
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -43,16 +27,16 @@ export const fetchAPI = async () => {
 export const handleTableHeaders = () => {
   console.log('[Dúvida Lint : arrow function sem return]');
   return (
-    headers.map((header, index) => (<th key={ index }>{ header }</th>))
+    Object.entries(headers).map((header, index) => (<th key={ index }>{ header[1] }</th>))
   );
 };
 
 export const handleObjKeys = (planet, index) => (
   <tr key={ index }>
     {
-      objKeysAPI.map((header, i) => (
+      Object.entries(headers).map((header, i) => (
         <td key={ i }>
-          { planet[header] }
+          { planet[header[0]] }
         </td>
       ))
     }
