@@ -16,9 +16,9 @@ function FilterBar() {
   }, [setPlanets, setIsLoading]);
 
   return (
-    <header>
+    <div>
       <h2>=== FILTER BAR ===</h2>
-    </header>
+    </div>
   );
 }
 

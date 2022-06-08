@@ -6,7 +6,7 @@ export const fetchAPI = async () => {
   return planets;
 };
 
-export const headers = [
+export const headersAPI = [
   'Name',
   'Rotation Period',
   'Orbital Period',
@@ -22,7 +22,7 @@ export const headers = [
   'URL',
 ];
 
-export const objectKeys = [
+export const objKeysAPI = [
   'name',
   'rotation_period',
   'orbital_period',
