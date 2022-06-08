@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import Context from '../Context/Context';
-import { fetchAPI } from '../Helpers/DataAPI';
+import { fetchAPI } from '../Helpers/Handlers';
+import FilterByName from './FilterByName';
 
 function FilterBar() {
   const { setPlanets, setIsLoading } = useContext(Context);
@@ -18,6 +19,10 @@ function FilterBar() {
   return (
     <div>
       <h2>=== FILTER BAR ===</h2>
+      <form>
+        <FilterByName />
+        <hr />
+      </form>
     </div>
   );
 }

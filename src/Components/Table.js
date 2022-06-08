@@ -1,9 +1,17 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
-import { headersAPI, objKeysAPI } from '../Helpers/DataAPI';
+import {
+  handleTableHeaders,
+  handleObjKeys,
+  handleFilterByName,
+} from '../Helpers/Handlers';
 
 function Table() {
-  const { planets, isLoading } = useContext(Context);
+  const { planets, isLoading, filters: {
+    filterByName,
+    // filterByValues,
+  },
+  } = useContext(Context);
 
   return (
     <div>
@@ -14,23 +22,12 @@ function Table() {
             <table>
               <tbody>
                 <tr>
-                  {
-                    headersAPI.map((header, index) => <th key={ index }>{ header }</th>)
-                  }
+                  { handleTableHeaders() }
                 </tr>
-
                 {
-                  planets.map((planet, index) => (
-                    <tr key={ index }>
-                      {
-                        objKeysAPI.map((header, i) => (
-                          <td key={ i }>
-                            { planet[header] }
-                          </td>
-                        ))
-                      }
-                    </tr>
-                  ))
+                  planets
+                    .filter((planet) => handleFilterByName(planet, filterByName))
+                    .map((planet, index) => (handleObjKeys(planet, index)))
                 }
               </tbody>
             </table>
