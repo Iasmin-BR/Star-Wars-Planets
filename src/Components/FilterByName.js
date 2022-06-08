@@ -2,13 +2,16 @@ import React, { useContext } from 'react';
 import Context from '../Context/Context';
 
 function FilterByName() {
-  const { filters, setFilters } = useContext(Context);
+  const { filters, setFilters, setIsLoading } = useContext(Context);
 
+  // [TODO]: Refatorar handleOnChange para um hook customizável;
   const handleOnChange = (event) => {
+    setIsLoading(true);
     setFilters({
       ...filters,
       filterByName: event.target.value,
     });
+    setIsLoading(false);
   };
 
   return (

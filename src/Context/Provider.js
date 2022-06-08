@@ -7,7 +7,13 @@ function Provider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     filterByName: '',
-    filterByValues: [],
+    filterByValues: [
+      {
+        column: 'population',
+        comparison: '',
+        value: 0,
+      },
+    ],
   });
 
   const context = {

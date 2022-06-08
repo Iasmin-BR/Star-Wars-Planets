@@ -4,13 +4,14 @@ import {
   handleTableHeaders,
   handleObjKeys,
   handleFilterByName,
+  handleFilterByValues,
 } from '../Helpers/Handlers';
 import Loading from './Loading';
 
 function Table() {
   const { planets, isLoading, filters: {
     filterByName,
-    // filterByValues,
+    filterByValues,
   },
   } = useContext(Context);
 
@@ -28,6 +29,7 @@ function Table() {
                 {
                   planets
                     .filter((planet) => handleFilterByName(planet, filterByName))
+                    .filter((planet) => handleFilterByValues(planet, filterByValues))
                     .map((planet, index) => (handleObjKeys(planet, index)))
                 }
               </tbody>

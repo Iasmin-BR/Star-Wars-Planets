@@ -62,3 +62,19 @@ export const handleFilterByName = (planet, input) => {
     return planet;
   }
 };
+
+export const handleFilterByValues = (planet, input) => {
+  const { column, comparison, value } = input[0];
+  if (comparison === '') {
+    return planet;
+  }
+  if (comparison === 'maior que' && Number(planet[column]) > Number(value)) {
+    return planet;
+  }
+  if (comparison === 'menor que' && Number(planet[column]) < Number(value)) {
+    return planet;
+  }
+  if (comparison === 'igual a' && Number(planet[column]) === Number(value)) {
+    return planet;
+  }
+};
