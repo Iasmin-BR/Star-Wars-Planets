@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
+import { handleColumnOptions } from '../Helpers/Handlers';
 
 function FilterByValues() {
   const { filters, setFilters, setIsLoading } = useContext(Context);
@@ -26,11 +27,7 @@ function FilterByValues() {
   return (
     <div>
       <select data-testid="column-filter" id="column">
-        <option value="population" id="population">population</option>
-        <option value="orbital_period" id="orbital_period">orbital_period</option>
-        <option value="diameter" id="diameter">diameter</option>
-        <option value="rotation_period" id="rotation_period">rotation_period</option>
-        <option value="surface_water" id="surface_water">surface_water</option>
+        { handleColumnOptions() }
       </select>
       <select data-testid="comparison-filter" id="comparison">
         <option value="maior que">maior que</option>
