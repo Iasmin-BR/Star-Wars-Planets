@@ -1,32 +1,33 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Context from '../Context/Context';
-import { fetchAPI } from '../Helpers/Handlers';
-import FilterByName from './FilterByName';
-import FilterByValues from './FilterByValues';
+import {
+  renderColumnOptions, renderComparisonMenu,
+} from '../Helpers/Handlers';
 import RemoveFilters from './RemoveFilters';
 
 function FilterBar() {
-  const { setPlanets, setIsLoading } = useContext(Context);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const data = await fetchAPI();
-      setPlanets(data);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [setPlanets, setIsLoading]);
-
+  const { filters, handleOnChange } = useContext(Context);
   return (
     <div>
       <hr />
-      <h2>=== FILTER BAR ===</h2>
-      <form>
-        <FilterByName />
-        <hr />
-        <FilterByValues />
-      </form>
+      <input
+        data-testid="name-filter"
+        type="text"
+        id="name-filter"
+        name="nameFilter"
+        placeholder="Filter by name"
+        value={ filters.filterByName }
+        onChange={ (event) => handleOnChange(event) }
+      />
+      { renderColumnOptions(filters.filterOptions) }
+      { renderComparisonMenu() }
+      <input
+        id="number"
+        data-testid="value-filter"
+        type="number"
+        placeholder="Enter a value"
+        defaultValue="0"
+      />
       <RemoveFilters />
       <hr />
     </div>

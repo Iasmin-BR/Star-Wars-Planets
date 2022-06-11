@@ -1,10 +1,7 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
 import {
-  renderTableHeaders,
-  renderPlanetData,
-  handleFilterByName,
-  handleFilterByValues,
+  renderTableHeaders, renderPlanetData, handleFilterByName, handleFilterByValues,
 } from '../Helpers/Handlers';
 import Loading from './Loading';
 
@@ -14,24 +11,19 @@ function Table() {
 
   return (
     <div>
-      {
-        (isLoading)
-          ? (<Loading />)
-          : (
-            <table>
-              <tbody>
-                { renderTableHeaders() }
-                {
-                  planets
-                    .filter((planet) => handleFilterByName(planet, filterByName))
-                    .filter((planet) => handleFilterByValues(planet, filterByValues))
-                    .map((planet, index) => (renderPlanetData(planet, index)))
-                }
-              </tbody>
-            </table>
-          )
-      }
-
+      {(isLoading) ? (<Loading />) : (
+        <table>
+          <tbody>
+            { renderTableHeaders() }
+            {
+              planets
+                .filter((planet) => handleFilterByName(planet, filterByName))
+                .filter((planet) => handleFilterByValues(planet, filterByValues))
+                .map((planet, index) => (renderPlanetData(planet, index)))
+            }
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
