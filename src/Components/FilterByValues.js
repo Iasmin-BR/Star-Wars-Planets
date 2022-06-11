@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
 import {
-  renderColumnOptions,
-  updateColumnOptions,
-  renderComparisonMenu,
+  renderColumnOptions, updateColumnOptions, renderComparisonMenu,
 } from '../Helpers/Handlers';
 
 function FilterByValues() {
@@ -14,19 +12,18 @@ function FilterByValues() {
   const comparison = document.getElementById('comparison');
   const number = document.getElementById('number');
 
-  const handleClick = (value1, value2, value3) => {
+  const handleClick = (columnInput, compInput, numInput) => {
     setIsLoading(true);
-    const updatedOptions = updateColumnOptions(filterOptions, value1);
     setFilters({
       ...filters,
       filterByValues: [
         {
-          column: value1,
-          comparison: value2,
-          value: value3,
+          column: columnInput,
+          comparison: compInput,
+          value: numInput,
         },
       ],
-      filterOptions: updatedOptions,
+      filterOptions: updateColumnOptions(filterOptions, columnInput),
     });
     setIsLoading(false);
   };

@@ -9,11 +9,8 @@ import {
 import Loading from './Loading';
 
 function Table() {
-  const { planets, isLoading, filters: {
-    filterByName,
-    filterByValues,
-  },
-  } = useContext(Context);
+  const { planets, isLoading, filters } = useContext(Context);
+  const { filterByName, filterByValues } = filters;
 
   return (
     <div>

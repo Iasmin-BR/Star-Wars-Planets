@@ -3,6 +3,7 @@ import Context from '../Context/Context';
 import { fetchAPI } from '../Helpers/Handlers';
 import FilterByName from './FilterByName';
 import FilterByValues from './FilterByValues';
+import RemoveFilters from './RemoveFilters';
 
 function FilterBar() {
   const { setPlanets, setIsLoading } = useContext(Context);
@@ -26,6 +27,7 @@ function FilterBar() {
         <hr />
         <FilterByValues />
       </form>
+      <RemoveFilters />
       <hr />
     </div>
   );

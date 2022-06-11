@@ -62,15 +62,6 @@ export const renderColumnOptions = (filterOptions) => {
   // [TODO] Before publishing: change option inner text (value[0]) to value[1] in order to render the correct names in the dropdown menu;
 };
 
-export const updateColumnOptions = (obj, omitKey) => {
-  // This helper function clones an object, omitting a specific key.
-  const updatedOptions = Object.keys(obj)
-    .filter((key) => key !== omitKey)
-    .reduce((result, key) => ({ ...result, [key]: obj[key] }), {});
-  return updatedOptions;
-  // [Reference] As suggested by Wensveen; URL: https://stackoverflow.com/questions/34698905/how-can-i-clone-a-javascript-object-except-for-one-key;
-};
-
 export const renderComparisonMenu = () => {
   // [TODO]: After conclusion: Translate options to English;
   const options = ['maior que', 'menor que', 'igual a'];
@@ -108,4 +99,12 @@ export const handleFilterByValues = (planet, input) => {
     }
   }
 };
-// Filtre por população e o remove das opções;
+
+export const updateColumnOptions = (obj, omitKey) => {
+  // This helper function clones an object, omitting a specific key.
+  const updatedOptions = Object.keys(obj)
+    .filter((key) => key !== omitKey)
+    .reduce((result, key) => ({ ...result, [key]: obj[key] }), {});
+  return updatedOptions;
+  // [Reference] As suggested by Wensveen; URL: https://stackoverflow.com/questions/34698905/how-can-i-clone-a-javascript-object-except-for-one-key;
+};
