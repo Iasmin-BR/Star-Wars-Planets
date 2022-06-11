@@ -83,7 +83,7 @@ export const handleFilterByName = (planet, input) => {
 };
 
 export const handleFilterByValues = (planet, input) => {
-  const { column, comparison, value } = input[0];
+  const { column, comparison, value } = input[input.length - 1];
   if (comparison === '') { // Initial value empty: this condition leads to no initial filtering;
     return planet;
   }

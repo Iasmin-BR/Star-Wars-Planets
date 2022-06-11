@@ -6,7 +6,7 @@ import {
 
 function FilterByValues() {
   const { filters, setFilters, setIsLoading } = useContext(Context);
-  const { filterOptions } = filters;
+  const { filterByValues, filterOptions } = filters;
 
   const column = document.getElementById('column');
   const comparison = document.getElementById('comparison');
@@ -17,6 +17,7 @@ function FilterByValues() {
     setFilters({
       ...filters,
       filterByValues: [
+        ...filterByValues,
         {
           column: columnInput,
           comparison: compInput,
@@ -27,7 +28,7 @@ function FilterByValues() {
     });
     setIsLoading(false);
   };
-
+  // [TODO] Before publishing: do not show the filter button if all filter options are already in use.
   return (
     <div>
       { renderColumnOptions(filterOptions) }

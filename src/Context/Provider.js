@@ -9,7 +9,7 @@ function Provider({ children }) {
     filterByName: '',
     filterByValues: [
       {
-        column: 'population',
+        column: '',
         comparison: '',
         value: 0,
       },
