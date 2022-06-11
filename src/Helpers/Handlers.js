@@ -42,44 +42,11 @@ export const renderPlanetData = (planet, index) => (
   </tr>
 );
 
-export const handleFilterByName = (planet, input) => {
-  const { name } = planet;
-  if (name.toLowerCase().includes(input.toLowerCase())) {
-    return planet;
-  }
-};
-
-export const handleFilterByValues = (planet, input) => {
-  const { column, comparison, value } = input[0];
-  if (comparison === '') { // Initial value empty: this condition leads to no initial filtering;
-    return planet;
-  }
-  if (planet.population !== 'unknown') {
-    if (comparison === 'maior que' && Number(planet[column]) > Number(value)) {
-      return planet;
-    }
-    if (comparison === 'menor que' && Number(planet[column]) <= Number(value)) {
-      return planet;
-    }
-    if (comparison === 'igual a' && Number(planet[column]) === Number(value)) {
-      return planet;
-    }
-  }
-};
-
-export const renderColumnOptions = () => {
-  const numValues = {
-    population: 'Population',
-    rotation_period: 'Rotation Period',
-    orbital_period: 'Orbital Period',
-    diameter: 'Diameter',
-    surface_water: 'Surface Water',
-  };
-
-  return (
+export const renderColumnOptions = (filterOptions) => {
+  const columnOptions = (
     <select data-testid="column-filter" id="column">
       {
-        Object.entries(numValues).map((value, index) => (
+        Object.entries(filterOptions).map((value, index) => (
           <option
             key={ index }
             value={ value[0] }
@@ -91,9 +58,26 @@ export const renderColumnOptions = () => {
       }
     </select>
   );
-
-  // [TODO] After conclution: change value[0] to value[1] to render the correct names in the dropdown menu;
+  return columnOptions;
+  // [TODO] Before publishing: change option inner text (value[0]) to value[1] in order to render the correct names in the dropdown menu;
 };
+
+export const updateColumnOptions = (obj, omitKey) => {
+  const updatedOptions = Object.keys(obj).reduce((result, key) => {
+    if (key !== omitKey) {
+      result[key] = obj[key];
+    }
+    return result;
+  }, {});
+  return updatedOptions;
+};
+
+// const updateOptions = (obj, omitKey) => Object.keys(obj).reduce((result, key) => {
+//   if (key !== omitKey) {
+//     result[key] = obj[key];
+//   }
+//   return result;
+// }, {});
 
 export const renderComparisonMenu = () => {
   // [TODO]: After conclusion: Translate options to English;
@@ -107,3 +91,29 @@ export const renderComparisonMenu = () => {
     </select>
   );
 };
+
+export const handleFilterByName = (planet, input) => {
+  const { name } = planet;
+  if (name.toLowerCase().includes(input.toLowerCase())) {
+    return planet;
+  }
+};
+
+export const handleFilterByValues = (planet, input) => {
+  const { column, comparison, value } = input[0];
+  if (comparison === '') { // Initial value empty: this condition leads to no initial filtering;
+    return planet;
+  }
+  if (planet.population !== 'unknown') { // [TODO]: refactor using an array with "filterCases" and the "Array.some" method OR "switch case";
+    if (comparison === 'maior que' && Number(planet[column]) > Number(value)) {
+      return planet;
+    }
+    if (comparison === 'menor que' && Number(planet[column]) <= Number(value)) {
+      return planet;
+    }
+    if (comparison === 'igual a' && Number(planet[column]) === Number(value)) {
+      return planet;
+    }
+  }
+};
+// Filtre por população e o remove das opções;

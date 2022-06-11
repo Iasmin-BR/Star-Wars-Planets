@@ -1,9 +1,14 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
-import { renderColumnOptions, renderComparisonMenu } from '../Helpers/Handlers';
+import {
+  renderColumnOptions,
+  updateColumnOptions,
+  renderComparisonMenu,
+} from '../Helpers/Handlers';
 
 function FilterByValues() {
   const { filters, setFilters, setIsLoading } = useContext(Context);
+  const { filterOptions } = filters;
 
   const column = document.getElementById('column');
   const comparison = document.getElementById('comparison');
@@ -11,6 +16,7 @@ function FilterByValues() {
 
   const handleClick = (value1, value2, value3) => {
     setIsLoading(true);
+    const updatedOptions = updateColumnOptions(filterOptions, value1);
     setFilters({
       ...filters,
       filterByValues: [
@@ -20,13 +26,14 @@ function FilterByValues() {
           value: value3,
         },
       ],
+      filterOptions: updatedOptions,
     });
     setIsLoading(false);
   };
 
   return (
     <div>
-      { renderColumnOptions() }
+      { renderColumnOptions(filterOptions) }
       { renderComparisonMenu() }
       <input
         id="number"

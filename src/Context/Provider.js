@@ -14,6 +14,13 @@ function Provider({ children }) {
         value: 0,
       },
     ],
+    filterOptions: {
+      population: 'Population',
+      rotation_period: 'Rotation Period',
+      orbital_period: 'Orbital Period',
+      diameter: 'Diameter',
+      surface_water: 'Surface Water',
+    },
   });
 
   const context = {
