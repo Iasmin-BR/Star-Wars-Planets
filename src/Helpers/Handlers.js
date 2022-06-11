@@ -63,21 +63,13 @@ export const renderColumnOptions = (filterOptions) => {
 };
 
 export const updateColumnOptions = (obj, omitKey) => {
-  const updatedOptions = Object.keys(obj).reduce((result, key) => {
-    if (key !== omitKey) {
-      result[key] = obj[key];
-    }
-    return result;
-  }, {});
+  // This helper function clones an object, omitting a specific key.
+  const updatedOptions = Object.keys(obj)
+    .filter((key) => key !== omitKey)
+    .reduce((result, key) => ({ ...result, [key]: obj[key] }), {});
   return updatedOptions;
+  // [Reference] As suggested by Wensveen; URL: https://stackoverflow.com/questions/34698905/how-can-i-clone-a-javascript-object-except-for-one-key;
 };
-
-// const updateOptions = (obj, omitKey) => Object.keys(obj).reduce((result, key) => {
-//   if (key !== omitKey) {
-//     result[key] = obj[key];
-//   }
-//   return result;
-// }, {});
 
 export const renderComparisonMenu = () => {
   // [TODO]: After conclusion: Translate options to English;
