@@ -3,7 +3,6 @@ import Context from '../Context/Context';
 import {
   renderTableHeaders, renderPlanetData, handleFilterByName, handleFilterByValues,
 } from '../Helpers/Handlers';
-import Loading from './Loading';
 
 function Table() {
   const { planets, isLoading, filters } = useContext(Context);
@@ -11,7 +10,7 @@ function Table() {
 
   return (
     <div>
-      {(isLoading) ? (<Loading />) : (
+      {(isLoading) ? (<h2>Loading...</h2>) : (
         <table>
           <tbody>
             { renderTableHeaders() }

@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
 import {
-  renderColumnOptions, renderComparisonMenu,
+  renderColumnOptions, renderComparisonMenu, renderButtons, renderFiltersInUse,
 } from '../Helpers/Handlers';
-import RemoveFilters from './RemoveFilters';
 
 function FilterBar() {
-  const { filters, handleOnChange } = useContext(Context);
+  const {
+    isLoading, filters, handleOnChange, handleFilterBtn, handleRemoveBtn,
+  } = useContext(Context);
+  const { selectedFilters } = filters;
+
   return (
     <div>
       <hr />
@@ -28,7 +31,15 @@ function FilterBar() {
         placeholder="Enter a value"
         defaultValue="0"
       />
-      <RemoveFilters />
+      <span>
+        {(isLoading) ? (<h3>Loading...</h3>)
+          : (
+            <span>
+              <span>{renderButtons(handleFilterBtn, handleRemoveBtn)}</span>
+              <div>{renderFiltersInUse(selectedFilters, handleRemoveBtn)}</div>
+            </span>
+          )}
+      </span>
       <hr />
     </div>
   );
