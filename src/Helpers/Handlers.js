@@ -24,8 +24,6 @@ export const numericFilters = {
   surface_water: 'Surface Water',
 };
 
-export const initalFilters = [{ column: '', comparison: '', value: 0 }];
-
 export const fetchAPI = async () => {
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
   const response = await fetch(url);
@@ -33,20 +31,6 @@ export const fetchAPI = async () => {
   const planets = data.results;
   return planets;
 };
-
-export const renderTableHeaders = () => (
-  <tr>
-    { Object.entries(headers).map((header, i) => (<th key={ i }>{ header[1] }</th>))}
-  </tr>
-);
-
-export const renderPlanetData = (planet, index) => (
-  <tr key={ index }>
-    {Object.entries(headers).map((header, i) => (
-      <td key={ i }>{ planet[header[0]] }</td>
-    ))}
-  </tr>
-);
 
 export const renderColumnOptions = (filterOptions) => {
   const columnOptions = (
@@ -62,6 +46,15 @@ export const renderColumnOptions = (filterOptions) => {
   // [TODO] Before publishing: change option inner text (value[0]) to value[1] in order to render the correct names in the dropdown menu;
 };
 
+export const updateColumnOptions = (obj, omitKey) => {
+  // This helper function clones an object, omitting a specific key.
+  const updatedOptions = Object.keys(obj)
+    .filter((key) => key !== omitKey)
+    .reduce((result, key) => ({ ...result, [key]: obj[key] }), {});
+  return updatedOptions;
+  // [Ref] As suggested by Wensveen; URL: https://stackoverflow.com/questions/34698905/how-can-i-clone-a-javascript-object-except-for-one-key;
+};
+
 export const renderComparisonMenu = () => {
   // [TODO] Before publishing: Translate options to English;
   const options = ['maior que', 'menor que', 'igual a'];
@@ -71,34 +64,6 @@ export const renderComparisonMenu = () => {
         <option key={ i } value={ option }>{ option }</option>))}
     </select>
   );
-};
-
-export const handleFilterByName = (planet, input) => {
-  const { name } = planet;
-  if (name.toLowerCase().includes(input.toLowerCase())) {
-    return planet;
-  }
-};
-
-export const handleFilterByValues = (planet, input) => {
-  const { column, comparison, value } = input[input.length - 1];
-  if (comparison === '') return planet; // This condition leads to no initial filtering;
-  const filterCases = [
-    (comparison === 'maior que' && Number(planet[column]) > Number(value)),
-    (comparison === 'menor que' && Number(planet[column]) <= Number(value)),
-    (comparison === 'igual a' && Number(planet[column]) === Number(value)),
-  ];
-  if (planet.population !== 'unknown'
-  && filterCases.some((condition) => condition)) return planet;
-};
-
-export const updateColumnOptions = (obj, omitKey) => {
-  // This helper function clones an object, omitting a specific key.
-  const updatedOptions = Object.keys(obj)
-    .filter((key) => key !== omitKey)
-    .reduce((result, key) => ({ ...result, [key]: obj[key] }), {});
-  return updatedOptions;
-  // [Ref] As suggested by Wensveen; URL: https://stackoverflow.com/questions/34698905/how-can-i-clone-a-javascript-object-except-for-one-key;
 };
 
 export const renderButtons = (handleFilterBtn, handleRemoveBtn) => {
@@ -152,4 +117,37 @@ export const renderFiltersInUse = (selectedOpts, handleRemoveBtn) => {
       }))}
     </div>);
   return filtersInUse;
+};
+
+export const renderTableHeaders = () => (
+  <tr>
+    { Object.entries(headers).map((header, i) => (<th key={ i }>{ header[1] }</th>))}
+  </tr>
+);
+
+export const renderPlanetData = (planet, index) => (
+  <tr key={ index }>
+    {Object.entries(headers).map((header, i) => (
+      <td key={ i }>{ planet[header[0]] }</td>
+    ))}
+  </tr>
+);
+
+export const handleFilterByName = (planet, input) => {
+  const { name } = planet;
+  if (name.toLowerCase().includes(input.toLowerCase())) {
+    return planet;
+  }
+};
+
+export const handleFilterByValues = (planet, input) => {
+  const { column, comparison, value } = input[input.length - 1];
+  if (!comparison) return planet; // This condition leads to no initial filtering;
+  const filterCases = [
+    (comparison === 'maior que' && Number(planet[column]) > Number(value)),
+    (comparison === 'menor que' && Number(planet[column]) <= Number(value)),
+    (comparison === 'igual a' && Number(planet[column]) === Number(value)),
+  ];
+  if (planet.population !== 'unknown'
+  && filterCases.some((condition) => condition)) return planet;
 };

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
-import {
-  fetchAPI, initalFilters, numericFilters, updateColumnOptions,
-} from '../Helpers/Handlers';
+import { fetchAPI, numericFilters, updateColumnOptions } from '../Helpers/Handlers';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
-    filterByName: '', selectedFilters: initalFilters, filterOptions: numericFilters,
+    filterByName: '', selectedFilters: [{}], filterOptions: numericFilters,
   });
   const { selectedFilters, filterOptions } = filters;
 
@@ -47,7 +45,7 @@ function Provider({ children }) {
     setIsLoading(true);
     if (option === 'all') {
       setFilters({
-        ...filters, selectedFilters: initalFilters, filterOptions: numericFilters,
+        ...filters, selectedFilters: [{}], filterOptions: numericFilters,
       });
     } else {
       setFilters({
