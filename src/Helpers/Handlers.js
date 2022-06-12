@@ -63,7 +63,7 @@ export const renderColumnOptions = (filterOptions) => {
 };
 
 export const renderComparisonMenu = () => {
-  // [TODO]: After conclusion: Translate options to English;
+  // [TODO] Before publishing: Translate options to English;
   const options = ['maior que', 'menor que', 'igual a'];
   return (
     <select data-testid="comparison-filter" id="comparison">
@@ -82,20 +82,14 @@ export const handleFilterByName = (planet, input) => {
 
 export const handleFilterByValues = (planet, input) => {
   const { column, comparison, value } = input[input.length - 1];
-  if (comparison === '') { // Initial value empty: this condition leads to no initial filtering;
-    return planet;
-  }
-  if (planet.population !== 'unknown') { // [TODO]: refactor using an array with "filterCases" and the "Array.some" method OR "switch case";
-    if (comparison === 'maior que' && Number(planet[column]) > Number(value)) {
-      return planet;
-    }
-    if (comparison === 'menor que' && Number(planet[column]) <= Number(value)) {
-      return planet;
-    }
-    if (comparison === 'igual a' && Number(planet[column]) === Number(value)) {
-      return planet;
-    }
-  }
+  if (comparison === '') return planet; // This condition leads to no initial filtering;
+  const filterCases = [
+    (comparison === 'maior que' && Number(planet[column]) > Number(value)),
+    (comparison === 'menor que' && Number(planet[column]) <= Number(value)),
+    (comparison === 'igual a' && Number(planet[column]) === Number(value)),
+  ];
+  if (planet.population !== 'unknown'
+  && filterCases.some((condition) => condition)) return planet;
 };
 
 export const updateColumnOptions = (obj, omitKey) => {
@@ -104,19 +98,41 @@ export const updateColumnOptions = (obj, omitKey) => {
     .filter((key) => key !== omitKey)
     .reduce((result, key) => ({ ...result, [key]: obj[key] }), {});
   return updatedOptions;
-  // [Reference] As suggested by Wensveen; URL: https://stackoverflow.com/questions/34698905/how-can-i-clone-a-javascript-object-except-for-one-key;
+  // [Ref] As suggested by Wensveen; URL: https://stackoverflow.com/questions/34698905/how-can-i-clone-a-javascript-object-except-for-one-key;
 };
 
-export const renderFiltersInUse = (filterByValues, handleClick, handleFilterButton) => {
-  // [TODO] Before publishing: do not show the filter button if all filter options are already in use.
+export const renderButtons = (handleFilterBtn, handleRemoveBtn) => {
+  // [TODO] Before publishing: do not show the filter button if all filter options are already in use;
   const select1 = document.getElementById('column');
   const select2 = document.getElementById('comparison');
   const select3 = document.getElementById('number');
 
-  const result = (
+  return (
     <span>
-      {(filterByValues.length) && (filterByValues.map((filter, i) => {
-        const { column, comparison, value } = filter;
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => handleFilterBtn(select1.value, select2.value, select3.value) }
+      >
+        Filter
+      </button>
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ () => handleRemoveBtn('all') }
+      >
+        Remove All
+      </button>
+    </span>
+  );
+};
+
+export const renderFiltersInUse = (selectedOpts, handleRemoveBtn) => {
+  // [TODO] Before publishing: do not show options already in use in the dropdown menu;
+  const filtersInUse = (
+    <div>
+      {(selectedOpts.map((option, i) => {
+        const { column, comparison, value } = option;
         if (i > 0) {
           return (
             <span key={ i }>
@@ -124,7 +140,7 @@ export const renderFiltersInUse = (filterByValues, handleClick, handleFilterButt
                 {`${column} ${comparison} ${value}`}
                 <button
                   type="button"
-                  onClick={ () => handleClick(column) }
+                  onClick={ () => handleRemoveBtn(column) }
                 >
                   X
                 </button>
@@ -134,21 +150,6 @@ export const renderFiltersInUse = (filterByValues, handleClick, handleFilterButt
         }
         return null;
       }))}
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ () => handleFilterButton(select1.value, select2.value, select3.value) }
-      >
-        Filter
-      </button>
-      <button
-        data-testid="button-remove-filters"
-        type="button"
-        onClick={ () => handleClick('all') }
-      >
-        Remove All
-      </button>
-    </span>
-  );
-  return result;
+    </div>);
+  return filtersInUse;
 };

@@ -7,7 +7,7 @@ import Loading from './Loading';
 
 function Table() {
   const { planets, isLoading, filters } = useContext(Context);
-  const { filterByName, filterByValues } = filters;
+  const { filterByName, selectedFilters } = filters;
 
   return (
     <div>
@@ -18,7 +18,7 @@ function Table() {
             {
               planets
                 .filter((planet) => handleFilterByName(planet, filterByName))
-                .filter((planet) => handleFilterByValues(planet, filterByValues))
+                .filter((planet) => handleFilterByValues(planet, selectedFilters))
                 .map((planet, index) => (renderPlanetData(planet, index)))
             }
           </tbody>

@@ -9,9 +9,9 @@ function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
-    filterByName: '', filterByValues: initalFilters, filterOptions: numericFilters,
+    filterByName: '', selectedFilters: initalFilters, filterOptions: numericFilters,
   });
-  const { filterByValues, filterOptions } = filters;
+  const { selectedFilters, filterOptions } = filters;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,27 +32,27 @@ function Provider({ children }) {
     setIsLoading(false);
   };
 
-  const handleFilterButton = (select1, select2, select3) => {
+  const handleFilterBtn = (select1, select2, select3) => {
     setIsLoading(true);
     setFilters({
       ...filters,
-      filterByValues: [...filterByValues,
+      selectedFilters: [...selectedFilters,
         { column: select1, comparison: select2, value: select3 }],
       filterOptions: updateColumnOptions(filterOptions, select1),
     });
     setIsLoading(false);
   };
 
-  const handleRemoveButton = (option) => {
+  const handleRemoveBtn = (option) => {
     setIsLoading(true);
     if (option === 'all') {
       setFilters({
-        ...filters, filterByValues: initalFilters, filterOptions: numericFilters,
+        ...filters, selectedFilters: initalFilters, filterOptions: numericFilters,
       });
     } else {
       setFilters({
         ...filters,
-        filterByValues: filterByValues.filter((filter) => (filter.column !== option)),
+        selectedFilters: selectedFilters.filter((filter) => (filter.column !== option)),
       });
     }
     setIsLoading(false);
@@ -66,8 +66,8 @@ function Provider({ children }) {
     filters,
     setFilters,
     handleOnChange,
-    handleFilterButton,
-    handleRemoveButton,
+    handleFilterBtn,
+    handleRemoveBtn,
   };
 
   return (

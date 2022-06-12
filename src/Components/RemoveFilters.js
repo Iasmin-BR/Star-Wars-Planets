@@ -1,18 +1,23 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
 import Loading from './Loading';
-import { renderFiltersInUse } from '../Helpers/Handlers';
+import { renderButtons, renderFiltersInUse } from '../Helpers/Handlers';
 
 function RemoveFilters() {
   const {
-    isLoading, filters, handleRemoveButton, handleFilterButton,
+    isLoading, filters, handleFilterBtn, handleRemoveBtn,
   } = useContext(Context);
-  const { filterByValues } = filters;
+  const { selectedFilters } = filters;
 
   return (
     <span>
       {(isLoading) ? (<Loading />)
-        : (renderFiltersInUse(filterByValues, handleRemoveButton, handleFilterButton))}
+        : (
+          <span>
+            <span>{renderButtons(handleFilterBtn, handleRemoveBtn)}</span>
+            <div>{renderFiltersInUse(selectedFilters, handleRemoveBtn)}</div>
+          </span>
+        )}
     </span>
   );
 }
