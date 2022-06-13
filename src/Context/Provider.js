@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createContext } from 'react';
 import { fetchAPI, numericFilters, updateColumnOptions } from '../Helpers/Handlers';
 
 export const Context = createContext();
