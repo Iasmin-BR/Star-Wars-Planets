@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Context from '../Context/Context';
+import { Context } from '../Context/Provider';
 import {
   numericFilters, renderColumnOptions, renderComparisonMenu,
   renderButtons, renderFiltersInUse, renderSortOptions,
