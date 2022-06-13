@@ -33,17 +33,12 @@ export const fetchAPI = async () => {
 };
 
 export const renderColumnOptions = (filterOptions) => {
-  const columnOptions = (
-    <select data-testid="column-filter" id="column">
-      {Object.entries(filterOptions).map((value, index) => (
-        <option key={ index } value={ value[0] } id={ value[0] }>
-          { value[0] }
-        </option>
-      ))}
-    </select>
-  );
+  const columnOptions = (Object.entries(filterOptions).map((value, index) => (
+    <option key={ index } value={ value[0] } id={ value[0] }>
+      { value[0] }
+    </option>)));
   return columnOptions;
-  // [TODO] Before publishing: change option inner text (value[0]) to value[1] in order to render the correct names in the dropdown menu;
+  // [TODO] BP: change option inner text (value[0]) to value[1] in order to render the correct names in the dropdown menu;
 };
 
 export const updateColumnOptions = (obj, omitKey) => {
@@ -56,7 +51,7 @@ export const updateColumnOptions = (obj, omitKey) => {
 };
 
 export const renderComparisonMenu = () => {
-  // [TODO] Before publishing: Translate options to English;
+  // [TODO] BP: Translate options to English;
   const options = ['maior que', 'menor que', 'igual a'];
   return (
     <select data-testid="comparison-filter" id="comparison">
@@ -67,13 +62,13 @@ export const renderComparisonMenu = () => {
 };
 
 export const renderButtons = (handleFilterBtn, handleRemoveBtn) => {
-  // [TODO] Before publishing: do not show the filter button if all filter options are already in use;
-  const select1 = document.getElementById('column');
+  // [TODO] BP: do not show the filter button if all filter options are already in use;
+  const select1 = document.getElementById('column-filter');
   const select2 = document.getElementById('comparison');
   const select3 = document.getElementById('number');
-
+  // [TODO] BP: Add Number() method to select3.value and remove it from the comparison function;
   return (
-    <span>
+    <>
       <button
         type="button"
         data-testid="button-filter"
@@ -88,12 +83,12 @@ export const renderButtons = (handleFilterBtn, handleRemoveBtn) => {
       >
         Remove All
       </button>
-    </span>
+    </>
   );
 };
 
 export const renderFiltersInUse = (selectedOpts, handleRemoveBtn) => {
-  // [TODO] Before publishing: do not show options already in use in the dropdown menu;
+  // [TODO] BP: do not show options already in use in the dropdown menu;
   const filtersInUse = (
     <div>
       {(selectedOpts.map((option, i) => {
@@ -124,12 +119,20 @@ export const renderTableHeaders = () => (
     { Object.entries(headers).map((header, i) => (<th key={ i }>{ header[1] }</th>))}
   </tr>
 );
-
+// [TODO] BP: Remove unnecessary ifs here:
 export const renderPlanetData = (planet, index) => (
   <tr key={ index }>
-    {Object.entries(headers).map((header, i) => (
-      <td key={ i }>{ planet[header[0]] }</td>
-    ))}
+    {
+      Object.entries(headers).map((header, i) => {
+        if (header[0] === 'name') {
+          return (<td data-testid="planet-name" key={ i }>{ planet.name }</td>);
+        }
+        if (Object.keys(numericFilters).includes(header)) {
+          return (<td key={ i }>{ Number(planet[header[0]]) }</td>);
+        }
+        return (<td key={ i }>{ planet[header[0]] }</td>);
+      })
+    }
   </tr>
 );
 
@@ -144,10 +147,51 @@ export const handleFilterByValues = (planet, input) => {
   const { column, comparison, value } = input[input.length - 1];
   if (!comparison) return planet; // This condition leads to no initial filtering;
   const filterCases = [
-    (comparison === 'maior que' && Number(planet[column]) > Number(value)),
-    (comparison === 'menor que' && Number(planet[column]) <= Number(value)),
-    (comparison === 'igual a' && Number(planet[column]) === Number(value)),
+    (comparison === 'maior que' && planet[column] > Number(value)),
+    (comparison === 'menor que' && planet[column] <= Number(value)),
+    (comparison === 'igual a' && planet[column] === value),
   ];
   if (planet.population !== 'unknown'
   && filterCases.some((condition) => condition)) return planet;
+};
+
+export const renderSortOptions = (handleSortBtn) => {
+  const column = document.getElementById('column-sort');
+  let selectedOrder;
+
+  return (
+    <>
+      <label htmlFor="sort-order-asc">
+        ▲
+        <input
+          data-testid="column-sort-input-asc"
+          type="radio"
+          id="sort-order-asc"
+          name="sort-order"
+          value="ASC"
+          onChange={ (event) => { selectedOrder = event.target.value; } }
+          checked={ selectedOrder && selectedOrder === 'ASC' }
+        />
+      </label>
+      <label htmlFor="sort-order-desc">
+        ▼
+        <input
+          data-testid="column-sort-input-desc"
+          type="radio"
+          id="sort-order-desc"
+          name="sort-order"
+          value="DESC"
+          onChange={ (event) => { selectedOrder = event.target.value; } }
+          checked={ selectedOrder && selectedOrder === 'DESC' }
+        />
+      </label>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ () => handleSortBtn(column.value, selectedOrder) }
+      >
+        Sort
+      </button>
+    </>
+  );
 };

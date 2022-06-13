@@ -7,7 +7,7 @@ function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
-    filterByName: '', selectedFilters: [{}], filterOptions: numericFilters,
+    filterByName: '', selectedFilters: [{}], filterOptions: numericFilters, sortOpts: {},
   });
   const { selectedFilters, filterOptions } = filters;
 
@@ -56,6 +56,14 @@ function Provider({ children }) {
     setIsLoading(false);
   };
 
+  const handleSortBtn = (column, order) => {
+    setIsLoading(true);
+    setFilters({
+      ...filters, sortOpts: { column, order },
+    });
+    setIsLoading(false);
+  };
+
   const context = {
     planets,
     setPlanets,
@@ -66,6 +74,7 @@ function Provider({ children }) {
     handleOnChange,
     handleFilterBtn,
     handleRemoveBtn,
+    handleSortBtn,
   };
 
   return (
