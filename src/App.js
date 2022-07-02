@@ -1,13 +1,14 @@
 import React from 'react';
-import './App.css';
+import './Style/App.css';
 import FilterBar from './Components/FilterBar';
+import Header from './Components/Header';
 import Table from './Components/Table';
 import Provider from './Context/Provider';
 
 function App() {
   return (
     <Provider>
-      <h1>=== HEADER ===</h1>
+      <Header />
       <FilterBar />
       <Table />
     </Provider>

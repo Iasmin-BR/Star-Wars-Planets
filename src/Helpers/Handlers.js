@@ -5,15 +5,9 @@ const headers = {
   rotation_period: 'Rotation Period',
   orbital_period: 'Orbital Period',
   diameter: 'Diameter',
-  climate: 'Climate',
-  gravity: 'Gravity',
   terrain: 'Terrain',
-  surface_water: 'Surface Water',
   population: 'Population',
   films: 'Films',
-  created: 'Created',
-  edited: 'Edited',
-  url: 'URL',
 };
 
 export const numericFilters = {
@@ -35,10 +29,9 @@ export const fetchAPI = async () => {
 export const renderColumnOptions = (filterOptions) => {
   const columnOptions = (Object.entries(filterOptions).map((value, index) => (
     <option key={ index } value={ value[0] } id={ value[0] }>
-      { value[0] }
+      { value[1] }
     </option>)));
   return columnOptions;
-  // [TODO] BP: change option inner text (value[0]) to value[1] in order to render the correct names in the dropdown menu;
 };
 
 export const updateColumnOptions = (obj, omitKey) => {
@@ -51,8 +44,7 @@ export const updateColumnOptions = (obj, omitKey) => {
 };
 
 export const renderComparisonMenu = () => {
-  // [TODO] BP: Translate options to English;
-  const options = ['maior que', 'menor que', 'igual a'];
+  const options = ['greater than', 'less than', 'equal to'];
   return (
     <select data-testid="comparison-filter" id="comparison">
       {options.map((option, i) => (
