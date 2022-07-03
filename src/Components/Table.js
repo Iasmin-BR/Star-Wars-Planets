@@ -3,6 +3,7 @@ import { Context } from '../Context/Provider';
 import {
   renderTableHeaders, renderPlanetData, handleFilterByName, handleFilterByValues,
 } from '../Helpers/Handlers';
+import '../Style/Table.css';
 
 function Table() {
   const { planets, isLoading, filters } = useContext(Context);
@@ -10,7 +11,7 @@ function Table() {
   const { column, order } = sortOpts;
 
   return (
-    <div>
+    <div className="table">
       {(isLoading) ? (<h2>Loading...</h2>) : (
         <table>
           <tbody>

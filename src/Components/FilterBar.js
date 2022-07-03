@@ -4,6 +4,8 @@ import {
   numericFilters, renderColumnOptions, renderComparisonMenu,
   renderButtons, renderFiltersInUse, renderSortOptions,
 } from '../Helpers/Handlers';
+import Demo from './Demo';
+import '../Style/FilterBar.css';
 
 function FilterBar() {
   const {
@@ -13,8 +15,9 @@ function FilterBar() {
 
   const { selectedFilters } = filters;
 
-  return (
-    <div>
+  const FIVE_SECS = 5000;
+  const filterBar = (
+    <div className="filter-bar">
       <hr />
       <input
         data-testid="name-filter"
@@ -51,6 +54,12 @@ function FilterBar() {
         <hr />
       </div>
     </div>
+  );
+
+  return (
+    isLoading
+      ? (<div className="loading-bar"><Demo /></div>)
+      : (filterBar)
   );
 }
 
