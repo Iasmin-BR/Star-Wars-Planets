@@ -1,0 +1,40 @@
+.table-section {
+    margin: auto;
+}
+
+table {
+    margin: auto;
+    padding: 50px;
+}
+
+.planet-img {
+    border: 2px solid #353538;
+    border-radius: 100px;
+    box-shadow: 5px 5px 4px 5px #1f1f20;
+    width: 180%;
+    margin-bottom: 50px;
+}
+
+.planet-name {
+    text-align: left;
+    font-size: larger;
+    font-size: 30px;
+    font-family: Barlow,sans-serif;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: rgb(255, 252, 241);
+}
+
+.planet-desc {
+    text-align: left;
+    margin-bottom: 35px;
+}
+
+.header-num {
+    text-align: center;
+    color: white;
+}
+
+.row-num {
+    text-align: center;
+    color: yellow;
+}

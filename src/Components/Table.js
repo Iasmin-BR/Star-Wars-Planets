@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { Context } from '../Context/Provider';
 import {
-  renderTableHeaders, renderPlanetData, handleFilterByName, handleFilterByValues,
+  renderPlanetData, handleFilterByName, handleFilterByValues,
 } from '../Helpers/Handlers';
+import '../Style/Table.css';
 
 function Table() {
   const { planets, isLoading, filters } = useContext(Context);
@@ -10,11 +11,10 @@ function Table() {
   const { column, order } = sortOpts;
 
   return (
-    <div>
+    <div className="table-section">
       {(isLoading) ? (<h2>Loading...</h2>) : (
         <table>
           <tbody>
-            { renderTableHeaders() }
             { // [TODO] Next: add method Number() to table numeric values;
               planets
                 .sort((a, b) => {

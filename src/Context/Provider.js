@@ -17,7 +17,8 @@ function Provider({ children }) {
       setIsLoading(true);
       const data = await fetchAPI();
       setPlanets(data);
-      setIsLoading(false);
+      const FIVE_SECS = 5000;
+      setTimeout(setIsLoading, FIVE_SECS, false);
     };
     fetchData();
   }, [setPlanets, setIsLoading]);
