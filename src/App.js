@@ -9,6 +9,9 @@ function App() {
   return (
     <Provider>
       <Header />
+      <div id="stars" />
+      <div id="stars2" />
+      <div id="stars3" />
       <FilterBar />
       <Table />
     </Provider>

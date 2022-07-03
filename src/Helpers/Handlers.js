@@ -1,13 +1,15 @@
 import React from 'react';
+import planetsImages from './planetsImages';
 
 const headers = {
-  name: 'Name',
-  rotation_period: 'Rotation Period',
-  orbital_period: 'Orbital Period',
+  image: '',
+  name: '',
+  terrain: '',
+  rotation_period: 'Rotation',
+  orbital_period: 'Orbital',
   diameter: 'Diameter',
-  terrain: 'Terrain',
   population: 'Population',
-  films: 'Films',
+  // films: 'Films',
 };
 
 export const numericFilters = {
@@ -15,15 +17,20 @@ export const numericFilters = {
   rotation_period: 'Rotation Period',
   orbital_period: 'Orbital Period',
   diameter: 'Diameter',
-  surface_water: 'Surface Water',
+  // surface_water: 'Surface Water',
 };
 
 export const fetchAPI = async () => {
   const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
   const response = await fetch(url);
   const data = await response.json();
-  const planets = data.results;
-  return planets;
+  const planetsInfo = data.results;
+  const result = planetsInfo.map((planet) => {
+    const findImg = planetsImages.find((photo) => (
+      planet.name === photo.planet));
+    return { ...planet, image: findImg.image };
+  });
+  return result;
 };
 
 export const renderColumnOptions = (filterOptions) => {
@@ -87,9 +94,9 @@ export const renderFiltersInUse = (selectedOpts, handleRemoveBtn) => {
         const { column, comparison, value } = option;
         if (i > 0) {
           return (
-            <span key={ i }>
+            <div className="filter-in-use" key={ i }>
               <p data-testid="filter">
-                {`${column} ${comparison} ${value}`}
+                {`${column.replace('_', ' ')} ${comparison} ${value}`}
                 <button
                   type="button"
                   onClick={ () => handleRemoveBtn(column) }
@@ -97,7 +104,7 @@ export const renderFiltersInUse = (selectedOpts, handleRemoveBtn) => {
                   X
                 </button>
               </p>
-            </span>
+            </div>
           );
         }
         return null;
@@ -106,23 +113,39 @@ export const renderFiltersInUse = (selectedOpts, handleRemoveBtn) => {
   return filtersInUse;
 };
 
-export const renderTableHeaders = () => (
-  <tr>
-    { Object.entries(headers).map((header, i) => (<th key={ i }>{ header[1] }</th>))}
-  </tr>
-);
 // [TODO] BP: Remove unnecessary ifs here:
 export const renderPlanetData = (planet, index) => (
   <tr key={ index }>
     {
       Object.entries(headers).map((header, i) => {
+        if (header[0] === 'image') {
+          return (
+            <td key={ i }>
+              <img
+                className="planet-img"
+                src={ planet.image }
+                alt={ `${planet.name} ilustration` }
+              />
+            </td>
+          );
+        }
         if (header[0] === 'name') {
-          return (<td data-testid="planet-name" key={ i }>{ planet.name }</td>);
+          return (
+            <td key={ i }>
+              <h2 className="planet-name">{ planet.name.toUpperCase() }</h2>
+              <p className="planet-desc">{ planet.terrain }</p>
+            </td>
+          );
         }
-        if (Object.keys(numericFilters).includes(header)) {
-          return (<td key={ i }>{ Number(planet[header[0]]) }</td>);
+        if (header[0] === 'terrain') {
+          return;
         }
-        return (<td key={ i }>{ planet[header[0]] }</td>);
+        return (
+          <td key={ i }>
+            <h4 className="header-num">{ header[1] }</h4>
+            <hr />
+            <p className="row-num">{ Number(planet[header[0]]) || 'unkown' }</p>
+          </td>);
       })
     }
   </tr>
@@ -139,9 +162,9 @@ export const handleFilterByValues = (planet, input) => {
   const { column, comparison, value } = input[input.length - 1];
   if (!comparison) return planet; // This condition leads to no initial filtering;
   const filterCases = [
-    (comparison === 'maior que' && planet[column] > Number(value)),
-    (comparison === 'menor que' && planet[column] <= Number(value)),
-    (comparison === 'igual a' && planet[column] === value),
+    (comparison === 'greater than' && planet[column] > Number(value)),
+    (comparison === 'less than' && planet[column] <= Number(value)),
+    (comparison === 'equal to' && planet[column] === value),
   ];
   if (planet.population !== 'unknown'
   && filterCases.some((condition) => condition)) return planet;
